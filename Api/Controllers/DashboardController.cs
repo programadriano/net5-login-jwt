@@ -11,7 +11,11 @@ namespace Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Dados de dash");
+            return Ok(new
+            {
+                autenticado = true,
+                sessao = "Dados de dash"
+            });            
         }
     }
 }
