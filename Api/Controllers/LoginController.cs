@@ -3,7 +3,9 @@ using Api.Infra.Security;
 using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Text.Json;
 
 namespace Api.Controllers
 {
@@ -12,10 +14,12 @@ namespace Api.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<LoginController> _logger;
 
-        public LoginController(IConfiguration config)
+        public LoginController(IConfiguration config, ILogger<LoginController> logger)
         {
             _config = config;
+            _logger = logger;
         }
         [HttpPost]
         public IActionResult Post(
@@ -27,13 +31,17 @@ namespace Api.Controllers
                 var validarUsuario = loginService.Autentica(credenciais);
 
                 if (validarUsuario == null)
-                    return NotFound();
+                    return NoContent();
+
+                var correlationId = Guid.NewGuid();
+                _logger.LogInformation(correlationId.ToString(), "Usuario logado", JsonSerializer.Serialize(validarUsuario));
 
                 return Ok(new
                 {
                     token = JwtToken.GenerateToken(validarUsuario, _config),
-                    usuario = validarUsuario
-                });
+                    usuario = validarUsuario,
+                    correlationId = correlationId
+                }); ;
             }
             catch (Exception ex)
             {
