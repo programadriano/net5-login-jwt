@@ -22,7 +22,7 @@ namespace Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            ConfigureELK();
+            //  ConfigureELK();
         }
 
 

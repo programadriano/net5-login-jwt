@@ -34,7 +34,7 @@ namespace Api.Controllers
                     return NoContent();
 
                 var correlationId = Guid.NewGuid();
-                _logger.LogInformation(correlationId.ToString(), "Usuario logado", JsonSerializer.Serialize(validarUsuario));
+                _logger.LogInformation($"{correlationId} Usuario logado:  {JsonSerializer.Serialize(validarUsuario)}");
 
                 return Ok(new
                 {

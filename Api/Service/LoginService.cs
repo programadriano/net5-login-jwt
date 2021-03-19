@@ -7,11 +7,11 @@ namespace Api.Service
     {
         public Usuario Autentica(Credencial credencial)
         {
-            if (credencial.Username == "rafael" && credencial.Password == "102030")
+            if (credencial.Username == "thiago" && credencial.Password == "102030")
             {
                 return new Usuario
                 {
-                    Nome = "Rafael Neves",
+                    Nome = "Thiago S Adriano",
                     Role = "Admin"
                 };
             }
